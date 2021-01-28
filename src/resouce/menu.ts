@@ -7,7 +7,7 @@ interface MenuType {
 const menuList: MenuType[] = [
   {
     title: '首页',
-    key: '/admin/home'
+    key: '/admin/welcome'
   },
   {
     title: 'UI',
@@ -89,11 +89,11 @@ const menuList: MenuType[] = [
     children: [
       {
         title: '订单详情',
-        key: 'detail'
+        key: '/admin/order/detail'
       },
       {
         title: '结束订单',
-        key: 'finish'
+        key: '/admin/order/finish'
       }
     ]
   },

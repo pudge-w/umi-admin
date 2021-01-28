@@ -18,7 +18,7 @@ const { SubMenu } = Menu;
 const menuList = [
   {
     title: '首页',
-    key: '/admin/home',
+    key: '/admin/welcome',
     icon: <MailOutlined />
   },
   {
@@ -107,11 +107,11 @@ const menuList = [
     children: [
       {
         title: '订单详情',
-        key: 'detail'
+        key: '/admin/order/detail'
       },
       {
         title: '结束订单',
-        key: 'finish'
+        key: '/admin/order/finish'
       }
     ]
   },

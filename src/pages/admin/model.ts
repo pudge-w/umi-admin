@@ -23,7 +23,7 @@ const AdminModel: AdminModelType = {
   namespace: 'admin',
   // store的数据
   state: {
-    pageTitle: 'kkk'
+    pageTitle: ''
   },
   // 写同步方法的
   reducers: {
