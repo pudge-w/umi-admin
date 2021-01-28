@@ -1,13 +1,31 @@
-import { FC } from 'react';
-import { Button, Space } from 'antd';
+import { FC, useState } from 'react';
+import { Button, Space, notification } from 'antd';
 import Card from '../components/Card';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 
+import pic from '../../../../assets/pic.png';
+
+type SizeType = 'small' | 'middle' | 'large' | undefined;
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+// const Pic = () => <img src={require('../../../../assets/pic.jpg')} alt=""/>
+
 const Buttons: FC = () => {
+
+  const [size, setSize]: [SizeType, Function] = useState('large');
+
+  const openNotificationWithIcon = (type: NotificationType) => {
+    notification[type]({
+      message: 'Notification Title',
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
+  };
+
   return (
     <Space className="Buttons" direction="vertical" style={{width: '100%'}}>
       <Card title="基础按钮">
-        <Button type="primary">Primary Button</Button>
+        <Button type="primary" size={size}>Primary Button</Button>
         <Button>Default Button</Button>
         <Button type="dashed">Dashed Button</Button>
         <Button type="primary" danger>Primary</Button>
@@ -25,6 +43,16 @@ const Buttons: FC = () => {
       <Card title="Loading...">
         <Button type="primary" loading>Loading</Button>
       </Card>
+
+      <Card title="全局通知">
+        <Button onClick={() => openNotificationWithIcon('success')}>Success</Button>
+        <Button onClick={() => openNotificationWithIcon('info')}>Info</Button>
+        <Button onClick={() => openNotificationWithIcon('warning')}>Warning</Button>
+        <Button onClick={() => openNotificationWithIcon('error')}>Error</Button>
+      </Card>
+
+      <img src={pic} alt=""/>
+      {/* <Pic /> */}
     </Space>
   )
 }
