@@ -46,8 +46,17 @@ const http = {
         message.error(error.message);
       });
   },
-  post() {
-
+  post(url: string, data?: Object) {
+    return request(url, {
+      method: 'post',
+      data: data
+    })
+      .then(function(response) {
+        return response
+      })
+      .catch(function(error) {
+        message.error(error.message);
+      });
   }
 }
 
