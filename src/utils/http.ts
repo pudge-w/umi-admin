@@ -4,9 +4,9 @@ import { message } from 'antd';
 const request = extend({
   prefix: 'http://pudge.wang:3000/api',
   timeout: 1000,
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
+  // headers: {
+  //   'Content-Type': 'multipart/form-data',
+  // },
 });
 
 // request拦截器, 改变url 或 options.
