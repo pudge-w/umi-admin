@@ -9,6 +9,7 @@ const LayoutHeader: FC = () => {
   const history = useHistory()
 
   const exit = () => {
+    localStorage.clear()
     history.push('/login')
   }
 

@@ -9,7 +9,7 @@ const { Content, Footer, Sider } = Layout;
 
 import './layout.less';
 
-const Admin: FC<IRouteComponentProps> = (props: IRouteComponentProps) => {
+const Admin = (props: IRouteComponentProps) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = (collapsed: boolean) => {
@@ -48,5 +48,7 @@ const Admin: FC<IRouteComponentProps> = (props: IRouteComponentProps) => {
     </>
   )
 }
+
+Admin.wrappers = ['@/wrappers/auth']
 
 export default Admin;

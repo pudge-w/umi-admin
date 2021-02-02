@@ -1,5 +1,7 @@
 import http from './http';
 
+export const login = (params?: Object) => http.post('/users/login', params);
+
 export const getGalleryList = (params?: Object) => http.get('/pics/list', params);
 
 export const getHighList = (params?: Object) => http.get('/hightables/list', params);
@@ -15,3 +17,5 @@ export const delCityItem = (params?: Object) => http.post('/cities/manage/del', 
 export const addCityItem = (params?: Object) => http.post('/cities/manage/add', params);
 
 export const getOrderList = (params?: Object) => http.post('/orders/list', params);
+
+export const getUserList = (params?: Object) => http.get('/users/list', params);
