@@ -5,21 +5,16 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import {getCity, getCityList, delCityItem, addCityItem} from '@/utils/api';
 
+import useDelete from './useDelete';
+import useAdd from './useAdd';
+import useQuery from './useQuery';
+
+import {format} from '@/utils/index';
+
 interface CityType {
   id: number;
   nm: string;
   py: string;
-}
-
-const format = (sjc: string) => {
-  let date = new Date(+sjc);
-  const y = date.getFullYear();
-  const m = date.getMonth() + 1;
-  const d = date.getDate();
-  const h = date.getHours();
-  const min = date.getMinutes();
-  const s = date.getSeconds();
-  return `${y}-${m}-${d} ${h}:${min}:${s}`
 }
 
 const layout = {
@@ -28,21 +23,26 @@ const layout = {
 };
 
 const City: FC = () => {
-
-  const [form] = Form.useForm();
-  const [addForm] = Form.useForm();
-
-  const [cts, setCts] = useState([]);
   const [data, setData] = useState([]);
-  // const [list, setList] = useState([]);
 
-  const [chooseCity, setChooseCity] = useState(''); 
-  const [chooseUseCar, setChooseUseCar] = useState(''); 
-  const [chooseOperating, setChooseOperating] = useState(''); 
+  const {
+    form,
+    cts,
+    onFinish,
+    handleChange,
+    onReset,
+    list1
+  } = useQuery(data);
+  const {
+    addForm,
+    isModalVisible,
+    modelShow,
+    handleOk,
+    handleCancel 
+  } = useAdd(setData);
+  const { deleteItem } = useDelete(<ExclamationCircleOutlined />, setData);
 
-  // 控制模态框的显示
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
+  // 获取数据
   useEffect(() => {
     (async() => {
       const res = await getCityList()
@@ -89,112 +89,6 @@ const City: FC = () => {
     }
   ]
 
-  const deleteItem = (item:any) => {
-    return () => {
-      Modal.confirm({
-        title: `你确定要删除${item.city}这条记录吗?`,
-        icon: <ExclamationCircleOutlined />,
-        content: '',
-        okText: '确定',
-        okType: 'danger',
-        cancelText: '取消',
-        async onOk() {
-          const res = await delCityItem({
-            id: item._id
-          })
-          if (res.status === 0) {
-            (async() => {
-              const res = await getCityList()
-              let list = res.result;
-              list = list.map((item: any) => {
-                return item = {...item, key:item._id}
-              })
-              setData(list);
-              // setList(list);
-            })()
-          }
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
-      });
-      // const res = await delCityItem({id})
-      // console.log(res)
-    }
-  }
-
-  // useEffect(() => {
-  //   let newList: any = [...data];
-  //   newList = newList.filter((item:any) => {
-  //     return item.city.includes(chooseCity) && item.useCar.includes(chooseUseCar) && item.operating.includes(chooseOperating)
-  //   })
-  //   setList(newList);
-  // }, [chooseCity, chooseUseCar, chooseOperating])
-
-  const onFinish = (values:any) => {
-    setChooseCity(values.city || '')
-    setChooseUseCar(values.useCar || '')
-    setChooseOperating(values.operating || '')
-  }
-
-  const handleChange = async (value:any) => {
-    if (value) {
-      const res = await getCity()
-      setCts(res.cts);
-    }
-  }
-
-  const onReset = () => {
-    form.resetFields();
-    setChooseCity('')
-    setChooseUseCar('')
-    setChooseOperating('')
-    // setList(data);
-  };
-
-  const list1 = useMemo(() => {
-    let newList: any = [...data];
-    newList = newList.filter((item:any) => {
-      return item.city.includes(chooseCity) && item.useCar.includes(chooseUseCar) && item.operating.includes(chooseOperating)
-    })
-    return newList;
-  }, [chooseCity, chooseUseCar, chooseOperating, data])
-
-  // 新增打开模态框
-  const modelShow = (): void => {
-    setIsModalVisible(true);
-  }
-
-  // 模态框确定的回调
-  const handleOk = async (): Promise<void> => {
-    // setIsModalVisible(false);
-    let values = addForm.getFieldsValue()
-    values = {
-      ...values,
-      openTime: moment(values.openTime).valueOf(),
-      handleTime: Date.now()
-    }
-    const res = await addCityItem({...values});
-    if (res.status === 0) {
-      setIsModalVisible(false);
-      (async() => {
-        const res = await getCityList()
-        let list = res.result;
-        list = list.map((item: any) => {
-          return item = {...item, key:item._id}
-        })
-        setData(list);
-        // setList(list);
-      })()
-    } else {
-      message.error(res.msg);
-    }
-  };
-
-  // 模态框取消的回调
-  const handleCancel = (): void => {
-    setIsModalVisible(false);
-  };
 
   return (
     <>
